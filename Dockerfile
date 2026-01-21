@@ -1,5 +1,8 @@
 # To use this Dockerfile, you have to set `output: 'standalone'` in your next.config.mjs file.
 # From https://github.com/vercel/next.js/blob/canary/examples/with-docker/Dockerfile
+#
+# Note: This is a headless CMS project. Next.js is used only for the admin panel
+# infrastructure and API routes. There is no public-facing frontend.
 
 FROM node:22.17.0-alpine AS base
 
@@ -30,6 +33,7 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED 1
 
+# Build Next.js application (admin panel + API routes only - no public frontend)
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
   elif [ -f package-lock.json ]; then npm run build; \
@@ -38,6 +42,7 @@ RUN \
   fi
 
 # Production image, copy all the files and run next
+# This serves the admin panel at /admin and API routes at /api
 FROM base AS runner
 WORKDIR /app
 
@@ -68,4 +73,5 @@ ENV PORT 3000
 
 # server.js is created by next build from the standalone output
 # https://nextjs.org/docs/pages/api-reference/next-config-js/output
+# This serves the admin panel and API routes (headless CMS)
 CMD HOSTNAME="0.0.0.0" node server.js

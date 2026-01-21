@@ -8,6 +8,9 @@ import 'dotenv/config'
 
 /**
  * See https://playwright.dev/docs/test-configuration.
+ * 
+ * Note: This is a headless CMS project. E2E tests are for the admin panel only.
+ * There is no public-facing frontend to test.
  */
 export default defineConfig({
   testDir: './tests/e2e',
@@ -21,7 +24,7 @@ export default defineConfig({
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    /* Base URL to use in actions like `await page.goto('/')`. */
+    /* Base URL for admin panel testing (e.g., 'http://localhost:3000/admin') */
     // baseURL: 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
@@ -33,6 +36,7 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'], channel: 'chromium' },
     },
   ],
+  /* Web server for admin panel E2E tests */
   webServer: {
     command: 'pnpm dev',
     reuseExistingServer: true,

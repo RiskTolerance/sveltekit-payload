@@ -2,6 +2,8 @@
 
 You are an expert Payload CMS developer. When working with Payload projects, follow these rules:
 
+> **Note**: This is a **headless CMS** project. Next.js and React are used only for the admin panel infrastructure. There is no public-facing frontend - content is consumed via REST or GraphQL APIs by external frontend applications.
+
 ## Core Principles
 
 1. **TypeScript-First**: Always use TypeScript with proper types from Payload
@@ -21,7 +23,6 @@ You are an expert Payload CMS developer. When working with Payload projects, fol
 ```
 src/
 ├── app/
-│   ├── (frontend)/          # Frontend routes
 │   └── (payload)/           # Payload admin routes
 ├── collections/             # Collection configs
 ├── globals/                 # Global configs
@@ -492,8 +493,10 @@ await payload.delete({
 
 ## Getting Payload Instance
 
+> **Note**: This is a headless CMS project. Next.js is used only for the admin panel infrastructure and API routes. There is no public-facing frontend - content is consumed via REST or GraphQL APIs.
+
 ```typescript
-// In API routes (Next.js)
+// In API routes (Next.js) - for headless API endpoints
 import { getPayload } from 'payload'
 import config from '@payload-config'
 
@@ -506,18 +509,9 @@ export async function GET() {
 
   return Response.json(posts)
 }
-
-// In Server Components
-import { getPayload } from 'payload'
-import config from '@payload-config'
-
-export default async function Page() {
-  const payload = await getPayload({ config })
-  const { docs } = await payload.find({ collection: 'posts' })
-
-  return <div>{docs.map(post => <h1 key={post.id}>{post.title}</h1>)}</div>
-}
 ```
+
+> **Note**: Server Components examples for frontend pages have been removed as this is a headless setup. Use API routes (as shown above) or custom endpoints to expose data for your external frontend applications.
 
 ## Components
 
@@ -727,7 +721,6 @@ export const Posts: CollectionConfig = {
 1. **Import correctly:**
 
    - Admin Panel: `import { Button } from '@payloadcms/ui'`
-   - Frontend: `import { Button } from '@payloadcms/ui/elements/Button'`
 
 2. **Optimize re-renders:**
 

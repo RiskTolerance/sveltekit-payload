@@ -1,6 +1,6 @@
-# Payload Blank Template
+# Payload Headless CMS
 
-This template comes configured with the bare minimum to get started on anything you need.
+This is a **headless CMS** project built with Payload CMS. It provides a REST API and GraphQL API for content management, along with an admin panel for content administration. There is no public-facing frontend included - this project is designed to be consumed by external frontend applications via the API.
 
 ## Quick start
 
@@ -20,9 +20,18 @@ After you click the `Deploy` button above, you'll want to have standalone copy o
 2. `cd my-project && cp .env.example .env` to copy the example environment variables. You'll need to add the `MONGODB_URL` from your Cloud project to your `.env` if you want to use S3 storage and the MongoDB database that was created for you.
 
 3. `pnpm install && pnpm dev` to install dependencies and start the dev server
-4. open `http://localhost:3000` to open the app in your browser
+4. Open `http://localhost:3000/admin` in your browser to access the admin panel
 
-That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
+That's it! Changes made in `./src` will be reflected in your admin panel and API. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
+
+### API Access
+
+- **Admin Panel**: `http://localhost:3000/admin` - Content management interface
+- **REST API**: `http://localhost:3000/api` - RESTful API endpoints
+- **GraphQL API**: `http://localhost:3000/api/graphql` - GraphQL endpoint
+- **GraphQL Playground**: `http://localhost:3000/api/graphql-playground` - Interactive GraphQL explorer
+
+Use these APIs to consume content in your frontend applications.
 
 #### Docker (Optional)
 
@@ -36,7 +45,7 @@ To do so, follow these steps:
 
 ## How it works
 
-The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:
+This is a headless CMS setup - Payload provides the content management backend and admin panel. Your frontend applications consume content via the REST or GraphQL APIs. The Payload config is pre-configured in the following ways:
 
 ### Collections
 
@@ -58,7 +67,7 @@ Alternatively, you can use [Docker](https://www.docker.com) to spin up this temp
 
 1. Follow [steps 1 and 2 from above](#development), the docker-compose file will automatically use the `.env` file in your project root
 1. Next run `docker-compose up`
-1. Follow [steps 4 and 5 from above](#development) to login and create your first admin user
+1. Access the admin panel at `http://localhost:3000/admin` and follow the on-screen instructions to login and create your first admin user
 
 That's it! The Docker instance will help you get up and running quickly while also standardizing the development environment across your teams.
 
