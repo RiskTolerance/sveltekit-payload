@@ -7,6 +7,8 @@ import {
   ImageBlock,
   ImageGalleryBlock,
   CTABlock,
+  CarouselBlock,
+  RichTextBlock,
 } from '../blocks'
 
 export const Pages: CollectionConfig = {
@@ -53,7 +55,7 @@ export const Pages: CollectionConfig = {
     {
       name: 'layout',
       type: 'blocks',
-      blocks: [HeroBlock, ContentBlock, ImageBlock, ImageGalleryBlock, CTABlock],
+      blocks: [HeroBlock, ContentBlock, ImageBlock, ImageGalleryBlock, CTABlock, CarouselBlock, RichTextBlock],
       admin: {
         description: 'Build your page layout using blocks',
       },
