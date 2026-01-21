@@ -38,7 +38,7 @@ export default defineConfig({
   ],
   /* Web server for admin panel E2E tests */
   webServer: {
-    command: 'pnpm dev',
+    command: 'bun dev',
     reuseExistingServer: true,
     url: 'http://localhost:3000',
   },
