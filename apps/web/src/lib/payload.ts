@@ -18,13 +18,36 @@ function convertMediaUrl(url: string | null | undefined): string | null {
 }
 
 /**
- * Type guard and URL converter - returns Media object with absolute URL
+ * Converts URLs in the sizes object recursively
+ */
+function convertSizesUrls(
+	sizes: Media['sizes'] | null | undefined
+): Media['sizes'] | undefined {
+	if (!sizes) return undefined
+
+	const converted: Media['sizes'] = {}
+
+	for (const [sizeName, sizeData] of Object.entries(sizes)) {
+		if (sizeData && typeof sizeData === 'object' && 'url' in sizeData) {
+			converted[sizeName as keyof typeof sizes] = {
+				...sizeData,
+				url: convertMediaUrl(sizeData.url ?? null),
+			}
+		}
+	}
+
+	return converted
+}
+
+/**
+ * Type guard and URL converter - returns Media object with absolute URLs
  */
 export function getMedia(value: number | Media | null | undefined): Media | null {
 	if (typeof value === 'object' && value !== null && 'url' in value) {
 		return {
 			...value,
-			url: convertMediaUrl(value.url)
+			url: convertMediaUrl(value.url),
+			sizes: convertSizesUrls(value.sizes),
 		}
 	}
 	return null
