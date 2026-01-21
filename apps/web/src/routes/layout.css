@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @import "tw-animate-css";
 
@@ -117,5 +118,8 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  .payload-richtext {
+    @apply prose prose-slate dark:prose-invert;
   }
 }

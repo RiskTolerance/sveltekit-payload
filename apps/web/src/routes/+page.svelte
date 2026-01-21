@@ -1,6 +1,6 @@
 <script lang="ts">
 	let { data } = $props();
-	import { Hero, Carousel } from '$lib/components/blocks';
+	import { Hero, Carousel, RichTextBlock } from '$lib/components/blocks';
 </script>
 
 <p class="mx-auto w-fit text-4xl">BLOCKS</p>
@@ -10,6 +10,8 @@
 			<Hero {block} />
 		{:else if block.blockType === 'carousel'}
 			<Carousel {block} />
+		{:else if block.blockType === 'richText'}
+			<RichTextBlock {block} />
 		{/if}
 	{/each}
 </div>

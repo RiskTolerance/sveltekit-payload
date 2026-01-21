@@ -59,6 +59,7 @@
 		"vitest-browser-svelte": "^2.0.1"
 	},
 	"dependencies": {
+		"@payloadcms/richtext-lexical": "^3.72.0",
 		"better-sqlite3": "^12.5.0",
 		"embla-carousel-autoplay": "^8.6.0",
 		"lucide-svelte": "^0.562.0",
