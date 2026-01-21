@@ -1,9 +1,10 @@
 <script lang="ts">
   import { getMedia } from "$lib/payload";
   let {data} = $props()
-
+  import Button from "$lib/components/ui/button/button.svelte";
+	import { Circle } from "lucide-svelte";
 </script>
-
+<div>
   <p class="text-4xl mx-auto w-fit">BLOCKS</p>
 
 <div class="p-8 md:p-16">
@@ -15,11 +16,14 @@
         <h1>{block.heading}</h1>
         <h2>{block.subheading}</h2>
         {#if bg && bg.url}
-              <img src={bg.url} alt={bg.alt} />
+
+          <img class="aspect-square object-cover h-[300px] overflow-clip" src={bg.url} alt={bg.alt} />
+
             {/if}
         </div>
-        <a class="bg-slate-200 px-3 py-1 rounded-sm border border-slate-300" href={block.cta?.link}>{block.cta?.label}</a>
+        <Button href={block.cta?.link}>{block.cta?.label}</Button>
       </div>
     {/if}
   {/each}
+</div>
 </div>
