@@ -83,8 +83,8 @@ services:
   # ============================================
   web:
     build:
-      context: ./apps/web
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./apps/web/Dockerfile
     container_name: web
     restart: unless-stopped
     ports:
@@ -95,6 +95,7 @@ services:
       HOST: "0.0.0.0"
       ORIGIN: ${ORIGIN:-http://localhost:5173}
       PAYLOAD_URL: http://cms:3000
+      PUBLIC_PAYLOAD_URL: http://cms:3000
       DATABASE_URL: postgres://${POSTGRES_USER:-payload}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-payload}?schema=app
     depends_on:
       cms:
@@ -103,8 +104,10 @@ services:
       test: ["CMD", "wget", "--spider", "-q", "http://localhost:5173"]
       interval: 30s
       timeout: 10s
-      retries: 3
-      start_period: 15s
+      retries: 5
+      start_period: 90s
+      # Don't kill container if healthcheck fails during startup
+      disable: false
     networks:
       - backend
       - frontend
