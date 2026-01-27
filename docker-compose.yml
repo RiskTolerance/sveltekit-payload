@@ -21,9 +21,6 @@ services:
       timeout: 10s
       retries: 3
       start_period: 90s
-    networks:
-      - backend
-      - frontend
 
   # ============================================
   # SvelteKit Frontend
@@ -56,15 +53,6 @@ services:
       timeout: 10s
       retries: 5
       start_period: 90s
-    networks:
-      - backend
-      - frontend
-
-networks:
-  frontend:
-    driver: bridge
-  backend:
-    driver: bridge
 
 volumes:
   cms_media:
