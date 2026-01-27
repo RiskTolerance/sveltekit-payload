@@ -1,7 +1,7 @@
 import { stringify } from 'qs-esm'
 
-// Use process.env for server-side runtime access (works with Bun)
-const PAYLOAD_URL = process.env.PAYLOAD_URL ?? import.meta.env.PAYLOAD_URL ?? 'http://localhost:3000'
+// Use process.env for server-side runtime access
+const PAYLOAD_URL = process.env.PAYLOAD_URL ?? 'http://localhost:3000'
 
 // Debug: Log the PAYLOAD_URL being used
 console.log('[Payload] PAYLOAD_URL:', PAYLOAD_URL)
