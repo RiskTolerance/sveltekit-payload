@@ -278,6 +278,8 @@ export interface ImageBlock {
   image: number | Media;
   caption?: string | null;
   alignment?: ('left' | 'center' | 'right' | 'full') | null;
+  imageFit?: ('contain' | 'cover' | 'fill' | 'none' | 'scale-down') | null;
+  maxHeight?: ('100vh' | '50vh' | '25vh') | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'image';
@@ -680,6 +682,8 @@ export interface ImageBlockSelect<T extends boolean = true> {
   image?: T;
   caption?: T;
   alignment?: T;
+  imageFit?: T;
+  maxHeight?: T;
   id?: T;
   blockName?: T;
 }

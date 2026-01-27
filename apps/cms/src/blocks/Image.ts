@@ -25,5 +25,26 @@ export const ImageBlock: Block = {
       ],
       defaultValue: 'center',
     },
+    {
+      name: 'imageFit',
+      type: 'select',
+      options: [
+        { label: 'Contain', value: 'contain' },
+        { label: 'Cover', value: 'cover' },
+        { label: 'Fill', value: 'fill' },
+        { label: 'None', value: 'none' },
+        { label: 'Scale Down', value: 'scale-down' },
+      ],
+      defaultValue: 'cover',
+    },
+    {
+      name: 'maxHeight',
+      type: 'select',
+      options: [
+        { label: '100 View Height', value: '100vh' },
+        { label: '50 View Height', value: '50vh' },
+        { label: '25 View Height', value: '25vh' },
+      ],
+    },
   ],
 }

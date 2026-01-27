@@ -9,6 +9,8 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 
+import { s3Storage } from '@payloadcms/storage-s3';
+
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -32,5 +34,22 @@ export default buildConfig({
         push: true,
     }),
     sharp,
-    plugins: [],
+    plugins: [
+        // Temporarily disabled due to bug with focal point saves causing feedback loops
+        // See: https://github.com/payloadcms/payload/issues (S3 storage + focal points)
+        // s3Storage({
+        //     collections: {
+        //         media: true,
+        //     },
+        //     bucket: process.env.R2_BUCKET || '',
+        //     config: {
+        //         credentials: {
+        //             accessKeyId: process.env.R2_ACCESS_KEY_ID || '',
+        //             secretAccessKey: process.env.R2_SECRET_ACCESS_KEY || '',
+        //         },
+        //         region: process.env.R2_REGION || 'auto',
+        //         endpoint: process.env.R2_ENDPOINT || '',
+        //     },
+        // }),
+    ],
 })

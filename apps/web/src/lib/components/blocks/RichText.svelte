@@ -5,8 +5,5 @@
 	let { block }: { block: RichTextBlock } = $props();
 </script>
 
-<div class="w-full py-8">
-	<div class="mx-auto max-w-4xl px-4">
-		<RichText content={block.content} />
-	</div>
-</div>
+<!-- NOTE: RichText component is styled with the payload-richtext class in layout.css -->
+<RichText content={block.content} />

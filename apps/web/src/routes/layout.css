@@ -120,6 +120,6 @@
     @apply bg-background text-foreground;
   }
   .payload-richtext {
-    @apply prose prose-slate dark:prose-invert;
+    @apply prose max-w-prose mx-auto prose-slate dark:prose-invert;
   }
 }

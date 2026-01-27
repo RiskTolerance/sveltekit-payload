@@ -27,8 +27,7 @@
 	});
 </script>
 
+<!-- NOTE: RichText component is styled with the payload-richtext class in layout.css -->
 {#if html}
-	<div class={cn('max-w-prose', className)} {...restProps}>
-		{@html html}
-	</div>
+	{@html html}
 {/if}
