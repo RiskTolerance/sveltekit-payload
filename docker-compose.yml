@@ -1,4 +1,23 @@
 services:
+  db:
+    image: postgres:17-alpine
+    container_name: db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_NAME:-payload}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-payload}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
   cms:
     build:
       context: ./apps/cms
@@ -6,13 +25,16 @@ services:
     container_name: cms
     restart: unless-stopped
     ports:
-      - "3001:3000"
+      - "3000:3000"
     environment:
-      DATABASE_URL: postgres://${DB_USER:-postgres}:${DB_PASSWORD:?Required}@${DB_HOST:?Required}:${DB_PORT:-5432}/${DB_NAME:-payload}
+      DATABASE_URL: postgres://${DB_USER:-postgres}:${DB_PASSWORD:-postgres}@db:5432/${DB_NAME:-payload}
       PAYLOAD_SECRET: ${PAYLOAD_SECRET:?Required}
       NODE_ENV: production
     volumes:
       - cms_media:/app/media
+    depends_on:
+      db:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "wget", "--spider", "-q", "http://localhost:3000/admin"]
       interval: 30s
@@ -32,7 +54,7 @@ services:
     ports:
       - "5173:5173"
     environment:
-      DATABASE_URL: postgres://${DB_USER:-postgres}:${DB_PASSWORD:?Required}@${DB_HOST:?Required}:${DB_PORT:-5432}/${DB_NAME:-payload}
+      DATABASE_URL: postgres://${DB_USER:-postgres}:${DB_PASSWORD:-postgres}@db:5432/${DB_NAME:-payload}
       PAYLOAD_SECRET: ${PAYLOAD_SECRET:?Required}
       NODE_ENV: production
       PORT: "5173"
@@ -51,4 +73,5 @@ services:
       start_period: 90s
 
 volumes:
+  postgres_data:
   cms_media:
