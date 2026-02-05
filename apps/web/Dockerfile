@@ -49,10 +49,4 @@ ENV HOST=0.0.0.0
 
 EXPOSE 5173
 
-# Don't switch to bun user yet - run as root to ensure we can see logs
-# USER bun
-
-# Try index.ts first (as user mentioned), then fallback to common alternatives
-# Use exec to ensure the process runs as PID 1 and stays in foreground
-# Add startup logging to verify container is running
 CMD ["sh", "-c", "echo '=== Web container starting ===' && echo 'Working directory:' && pwd && echo 'User:' && whoami && echo 'Build directory contents:' && ls -la build/ 2>/dev/null || echo 'Build directory not found' && echo 'Looking for entry point...' && cd /app && if [ -f ./build/index.ts ]; then echo 'Found index.ts, starting server...' && exec bun run ./build/index.ts; elif [ -f ./build/server.js ]; then echo 'Found server.js, starting server...' && exec bun run ./build/server.js; elif [ -f ./build/index.js ]; then echo 'Found index.js, starting server...' && exec bun run ./build/index.js; else echo 'ERROR: No entry point found!'; echo 'Build directory contents:'; ls -la build/ 2>/dev/null || echo 'Build directory does not exist'; exit 1; fi"]
