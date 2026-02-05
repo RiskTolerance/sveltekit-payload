@@ -555,30 +555,73 @@ export interface ContactInfoBlock {
   blockType: 'contactInfo';
 }
 /**
+ * Create navigation menus for header, footer, and sidebar areas. Each location can only have one navigation.
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "navigation".
  */
 export interface Navigation {
   id: number;
+  /**
+   * Internal name for this navigation (e.g., "Main Header Nav")
+   */
   name: string;
-  location: 'header' | 'footer' | 'sidebar';
+  /**
+   * Where this navigation will appear on the site. Each location can only have one navigation.
+   */
+  location: 'header' | 'footer' | 'sidebar' | 'utility';
+  /**
+   * Add top-level navigation items. Drag to reorder.
+   */
   items?:
     | {
+        /**
+         * The text displayed for this link
+         */
         label: string;
-        link: {
-          type: 'page' | 'custom';
-          page?: (number | null) | Page;
-          url?: string | null;
-          newTab?: boolean | null;
-        };
+        /**
+         * Optional icon to display with the label
+         */
+        icon?: ('none' | 'home' | 'about' | 'products' | 'contact' | 'phone' | 'email' | 'external') | null;
+        linkType: 'page' | 'custom';
+        page?: (number | null) | Page;
+        /**
+         * Enter full URL including https://
+         */
+        url?: string | null;
+        /**
+         * Open this link in a new browser tab
+         */
+        openInNewTab?: boolean | null;
+        /**
+         * Style this link as important/featured
+         */
+        highlight?: boolean | null;
+        /**
+         * Optional description shown in mega menus or dropdowns
+         */
+        description?: string | null;
+        /**
+         * Add dropdown items (optional)
+         */
         children?:
           | {
               label: string;
-              link: {
-                type: 'page' | 'custom';
-                page?: (number | null) | Page;
-                url?: string | null;
-              };
+              icon?: ('none' | 'home' | 'about' | 'products' | 'contact' | 'phone' | 'email' | 'external') | null;
+              linkType: 'page' | 'custom';
+              page?: (number | null) | Page;
+              /**
+               * Full URL with https://
+               */
+              url?: string | null;
+              /**
+               * Open this link in a new browser tab
+               */
+              openInNewTab?: boolean | null;
+              /**
+               * Optional description for mega menus
+               */
+              description?: string | null;
               id?: string | null;
             }[]
           | null;
@@ -1098,25 +1141,23 @@ export interface NavigationSelect<T extends boolean = true> {
     | T
     | {
         label?: T;
-        link?:
-          | T
-          | {
-              type?: T;
-              page?: T;
-              url?: T;
-              newTab?: T;
-            };
+        icon?: T;
+        linkType?: T;
+        page?: T;
+        url?: T;
+        openInNewTab?: T;
+        highlight?: T;
+        description?: T;
         children?:
           | T
           | {
               label?: T;
-              link?:
-                | T
-                | {
-                    type?: T;
-                    page?: T;
-                    url?: T;
-                  };
+              icon?: T;
+              linkType?: T;
+              page?: T;
+              url?: T;
+              openInNewTab?: T;
+              description?: T;
               id?: T;
             };
         id?: T;

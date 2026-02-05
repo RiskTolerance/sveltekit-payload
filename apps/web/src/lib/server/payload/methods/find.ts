@@ -20,21 +20,24 @@ export async function find<T>(
   collection: string,
   query?: Record<string, unknown>
 ): Promise<PayloadResponse<T>> {
-  const params = new URLSearchParams()
-
   // Always populate relationships one level deep
-  params.set('depth', '1')
-
-  if (query) {
-    for (const [key, value] of Object.entries(query)) {
-      params.set(key, String(value))
-    }
+  const params: Record<string, unknown> = {
+    depth: '1',
+    ...query
   }
 
-  const url = `${PAYLOAD_URL}/api/${collection}?${params}`
+  const queryString = stringify(params, { addQueryPrefix: true })
+  const url = `${PAYLOAD_URL}/api/${collection}${queryString}`
+  
+  console.log(`[Payload] Fetching ${collection}:`, url)
   
   try {
     const res = await fetch(url)
+    
+    if (!res.ok) {
+      const errorText = await res.text()
+      console.error(`[Payload] Error ${res.status}:`, errorText)
+    }
 
     if (!res.ok) {
       const errorText = await res.text().catch(() => 'Unknown error')
