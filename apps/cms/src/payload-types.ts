@@ -96,9 +96,7 @@ export interface Config {
   globals: {};
   globalsSelect: {};
   locale: null;
-  user: User & {
-    collection: 'users';
-  };
+  user: User;
   jobs: {
     tasks: {
       schedulePublish: TaskSchedulePublish;
@@ -151,6 +149,7 @@ export interface User {
       }[]
     | null;
   password?: string | null;
+  collection: 'users';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -226,7 +225,21 @@ export interface Page {
    * Build your page layout using blocks
    */
   layout?:
-    | (HeroBlock | ContentBlock | ImageBlock | ImageGalleryBlock | CTABlock | CarouselBlock | RichTextBlock)[]
+    | (
+        | HeroBlock
+        | ContentBlock
+        | ImageBlock
+        | ImageGalleryBlock
+        | CTABlock
+        | CarouselBlock
+        | RichTextBlock
+        | NewsletterBlock
+        | FeatureGridBlock
+        | TestimonialBlock
+        | StatsBlock
+        | ImageTextSplitBlock
+        | ContactInfoBlock
+      )[]
     | null;
   updatedAt: string;
   createdAt: string;
@@ -237,9 +250,22 @@ export interface Page {
  * via the `definition` "HeroBlock".
  */
 export interface HeroBlock {
+  /**
+   * Small text above heading
+   */
+  eyebrow?: string | null;
   heading: string;
+  /**
+   * Text to highlight in gold color (must match part of heading)
+   */
+  highlightText?: string | null;
   subheading?: string | null;
   backgroundImage?: (number | null) | Media;
+  /**
+   * Image shown beside text (creates two-column layout)
+   */
+  sideImage?: (number | null) | Media;
+  sideImageCaption?: string | null;
   cta?: {
     label?: string | null;
     link?: string | null;
@@ -308,6 +334,10 @@ export interface ImageGalleryBlock {
  * via the `definition` "CTABlock".
  */
 export interface CTABlock {
+  /**
+   * Small text above heading
+   */
+  eyebrow?: string | null;
   heading: string;
   description?: string | null;
   buttons?:
@@ -318,7 +348,11 @@ export interface CTABlock {
         id?: string | null;
       }[]
     | null;
-  backgroundColor?: ('default' | 'light' | 'dark') | null;
+  backgroundColor?: ('dark' | 'burgundy' | 'gold') | null;
+  /**
+   * Optional background image with overlay
+   */
+  backgroundImage?: (number | null) | Media;
   id?: string | null;
   blockName?: string | null;
   blockType: 'cta';
@@ -370,6 +404,155 @@ export interface RichTextBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'richText';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NewsletterBlock".
+ */
+export interface NewsletterBlock {
+  /**
+   * Small text above heading
+   */
+  eyebrow?: string | null;
+  heading: string;
+  description?: string | null;
+  placeholder?: string | null;
+  buttonText?: string | null;
+  successMessage?: string | null;
+  privacyText?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'newsletter';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeatureGridBlock".
+ */
+export interface FeatureGridBlock {
+  /**
+   * Small text above heading
+   */
+  eyebrow?: string | null;
+  heading: string;
+  description?: string | null;
+  columns?: ('2' | '3' | '4') | null;
+  features?:
+    | {
+        image?: (number | null) | Media;
+        title: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'featureGrid';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestimonialBlock".
+ */
+export interface TestimonialBlock {
+  quote: string;
+  authorName: string;
+  authorTitle?: string | null;
+  authorImage?: (number | null) | Media;
+  backgroundStyle?: ('gold' | 'dark' | 'image') | null;
+  backgroundImage?: (number | null) | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'testimonial';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StatsBlock".
+ */
+export interface StatsBlock {
+  /**
+   * Small text above heading
+   */
+  eyebrow?: string | null;
+  heading?: string | null;
+  columns?: ('2' | '3' | '4') | null;
+  stats?:
+    | {
+        /**
+         * e.g., "25+", "100%", "50 Years"
+         */
+        value: string;
+        label: string;
+        description?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'stats';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ImageTextSplitBlock".
+ */
+export interface ImageTextSplitBlock {
+  /**
+   * Small text above heading
+   */
+  eyebrow?: string | null;
+  heading: string;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  image: number | Media;
+  imageCaption?: string | null;
+  imagePosition?: ('left' | 'right') | null;
+  cta?: {
+    label?: string | null;
+    link?: string | null;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'imageTextSplit';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactInfoBlock".
+ */
+export interface ContactInfoBlock {
+  /**
+   * Small text above heading
+   */
+  eyebrow?: string | null;
+  heading: string;
+  address?: string | null;
+  phone?: string | null;
+  email?: string | null;
+  /**
+   * Business hours (supports line breaks)
+   */
+  hours?: string | null;
+  /**
+   * Google Maps embed URL
+   */
+  mapEmbed?: string | null;
+  /**
+   * Additional text or info
+   */
+  additionalContent?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contactInfo';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -683,6 +866,12 @@ export interface PagesSelect<T extends boolean = true> {
         cta?: T | CTABlockSelect<T>;
         carousel?: T | CarouselBlockSelect<T>;
         richText?: T | RichTextBlockSelect<T>;
+        newsletter?: T | NewsletterBlockSelect<T>;
+        featureGrid?: T | FeatureGridBlockSelect<T>;
+        testimonial?: T | TestimonialBlockSelect<T>;
+        stats?: T | StatsBlockSelect<T>;
+        imageTextSplit?: T | ImageTextSplitBlockSelect<T>;
+        contactInfo?: T | ContactInfoBlockSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -693,9 +882,13 @@ export interface PagesSelect<T extends boolean = true> {
  * via the `definition` "HeroBlock_select".
  */
 export interface HeroBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
   heading?: T;
+  highlightText?: T;
   subheading?: T;
   backgroundImage?: T;
+  sideImage?: T;
+  sideImageCaption?: T;
   cta?:
     | T
     | {
@@ -748,6 +941,7 @@ export interface ImageGalleryBlockSelect<T extends boolean = true> {
  * via the `definition` "CTABlock_select".
  */
 export interface CTABlockSelect<T extends boolean = true> {
+  eyebrow?: T;
   heading?: T;
   description?: T;
   buttons?:
@@ -759,6 +953,7 @@ export interface CTABlockSelect<T extends boolean = true> {
         id?: T;
       };
   backgroundColor?: T;
+  backgroundImage?: T;
   id?: T;
   blockName?: T;
 }
@@ -785,6 +980,110 @@ export interface CarouselBlockSelect<T extends boolean = true> {
  */
 export interface RichTextBlockSelect<T extends boolean = true> {
   content?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "NewsletterBlock_select".
+ */
+export interface NewsletterBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  description?: T;
+  placeholder?: T;
+  buttonText?: T;
+  successMessage?: T;
+  privacyText?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "FeatureGridBlock_select".
+ */
+export interface FeatureGridBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  description?: T;
+  columns?: T;
+  features?:
+    | T
+    | {
+        image?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TestimonialBlock_select".
+ */
+export interface TestimonialBlockSelect<T extends boolean = true> {
+  quote?: T;
+  authorName?: T;
+  authorTitle?: T;
+  authorImage?: T;
+  backgroundStyle?: T;
+  backgroundImage?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StatsBlock_select".
+ */
+export interface StatsBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  columns?: T;
+  stats?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        description?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ImageTextSplitBlock_select".
+ */
+export interface ImageTextSplitBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  content?: T;
+  image?: T;
+  imageCaption?: T;
+  imagePosition?: T;
+  cta?:
+    | T
+    | {
+        label?: T;
+        link?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ContactInfoBlock_select".
+ */
+export interface ContactInfoBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  heading?: T;
+  address?: T;
+  phone?: T;
+  email?: T;
+  hours?: T;
+  mapEmbed?: T;
+  additionalContent?: T;
   id?: T;
   blockName?: T;
 }

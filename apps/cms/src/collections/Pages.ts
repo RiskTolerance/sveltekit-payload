@@ -9,6 +9,12 @@ import {
   CTABlock,
   CarouselBlock,
   RichTextBlock,
+  NewsletterBlock,
+  FeatureGridBlock,
+  TestimonialBlock,
+  StatsBlock,
+  ImageTextSplitBlock,
+  ContactInfoBlock,
 } from '../blocks'
 
 export const Pages: CollectionConfig = {
@@ -55,7 +61,21 @@ export const Pages: CollectionConfig = {
     {
       name: 'layout',
       type: 'blocks',
-      blocks: [HeroBlock, ContentBlock, ImageBlock, ImageGalleryBlock, CTABlock, CarouselBlock, RichTextBlock],
+      blocks: [
+        HeroBlock,
+        ContentBlock,
+        ImageBlock,
+        ImageGalleryBlock,
+        CTABlock,
+        CarouselBlock,
+        RichTextBlock,
+        NewsletterBlock,
+        FeatureGridBlock,
+        TestimonialBlock,
+        StatsBlock,
+        ImageTextSplitBlock,
+        ContactInfoBlock,
+      ],
       admin: {
         description: 'Build your page layout using blocks',
       },

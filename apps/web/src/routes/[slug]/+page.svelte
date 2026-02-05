@@ -12,12 +12,4 @@
 
 {#if data.page}
 	<PageBlocks blocks={data.page.layout} />
-{:else}
-	<!-- Error state -->
-	<div class="flex min-h-[60vh] items-center justify-center bg-[#1a1a1a] px-6">
-		<div class="text-center">
-			<h1 class="mb-4 text-4xl font-bold text-white">Welcome to Heritage Berkshire</h1>
-			<p class="text-gray-400">Premium pork products coming soon.</p>
-		</div>
-	</div>
 {/if}

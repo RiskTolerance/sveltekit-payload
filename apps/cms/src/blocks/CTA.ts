@@ -5,6 +5,13 @@ export const CTABlock: Block = {
   interfaceName: 'CTABlock',
   fields: [
     {
+      name: 'eyebrow',
+      type: 'text',
+      admin: {
+        description: 'Small text above heading',
+      },
+    },
+    {
       name: 'heading',
       type: 'text',
       required: true,
@@ -33,8 +40,8 @@ export const CTABlock: Block = {
           name: 'style',
           type: 'select',
           options: [
-            { label: 'Primary', value: 'primary' },
-            { label: 'Secondary', value: 'secondary' },
+            { label: 'Primary (Gold)', value: 'primary' },
+            { label: 'Secondary (White)', value: 'secondary' },
             { label: 'Outline', value: 'outline' },
           ],
           defaultValue: 'primary',
@@ -45,11 +52,19 @@ export const CTABlock: Block = {
       name: 'backgroundColor',
       type: 'select',
       options: [
-        { label: 'Default', value: 'default' },
-        { label: 'Light', value: 'light' },
         { label: 'Dark', value: 'dark' },
+        { label: 'Burgundy', value: 'burgundy' },
+        { label: 'Gold', value: 'gold' },
       ],
-      defaultValue: 'default',
+      defaultValue: 'dark',
+    },
+    {
+      name: 'backgroundImage',
+      type: 'upload',
+      relationTo: 'media',
+      admin: {
+        description: 'Optional background image with overlay',
+      },
     },
   ],
 }
